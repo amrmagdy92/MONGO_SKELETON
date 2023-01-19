@@ -19,5 +19,9 @@
     "webpack-dev-middleware": "^6.0.1",
     "webpack-hot-middleware": "^2.25.3",
     "webpack-node-externals": "^3.0.0"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongodb": "^4.13.0"
   }
 }
