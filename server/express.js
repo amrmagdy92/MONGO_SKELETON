@@ -1,8 +1,10 @@
+import dotenv from "dotenv"
 import express from "express"
 import { MongoClient } from "mongodb"
 
-const mongoURL = "mongodb://127.0.0.1:27017"
-// process.env.MONGODB_URI || `mongodb+srv://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@devcluster.b1dvlrj.mongodb.net/?retryWrites=true&w=majority`
+dotenv.config()
+
+const mongoURL = process.env.MONGODB_URI || `mongodb+srv://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@devcluster.b1dvlrj.mongodb.net/?retryWrites=true&w=majority`
 
 MongoClient.connect(mongoURL).then(() => {
     console.log('Database connection is successful...')
