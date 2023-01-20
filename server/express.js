@@ -5,15 +5,21 @@ import cookieParser from "cookie-parser"
 import compress from "compression"
 import cors from "cors"
 import helmet from "helmet"
-import { MongoClient } from "mongodb"
+import mongoose from "mongoose"
 import config from "../config/config"
 
 dotenv.config()
 
-MongoClient.connect(config.mongoURI).then(() => {
-    console.log('Database connection is successful...')
-}).catch((err) => {
-    console.log(`Error connecting to the database:\n${err}`)
+mongoose.Promise = global.Promise
+mongoose.connect(config.mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}, () => {
+    console.log(`Database connected successfully @ ${config.mongoURI}`)
+})
+
+mongoose.connection.on('error', (err) => {
+    throw new Error(`Unable to connect to database: ${config.mongoURI}\n${err}`)
 })
 
 const app = express()
