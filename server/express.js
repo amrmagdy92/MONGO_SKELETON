@@ -1,10 +1,9 @@
 import dotenv from "dotenv"
 import express from "express"
 import { MongoClient } from "mongodb"
+import config from "../config/config"
 
 dotenv.config()
-
-import config from "../config/config"
 
 MongoClient.connect(config.mongoURI).then(() => {
     console.log('Database connection is successful...')
