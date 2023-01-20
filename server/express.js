@@ -11,6 +11,9 @@ import config from "../config/config"
 dotenv.config()
 
 mongoose.Promise = global.Promise
+
+mongoose.set('strictQuery', false)
+
 mongoose.connect(config.mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
