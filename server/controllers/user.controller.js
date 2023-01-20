@@ -1,5 +1,6 @@
 import userModel from "../models/user.model"
 import errorHandler from "../helpers/dbErrorHandler"
+import { extend } from "lodash"
 
 export default {
     create: (req, res) => {
@@ -25,8 +26,34 @@ export default {
             })
         })
     },
-    read: () => {},
-    update: () => {},
+    read: (req, res) => {
+        req.profile.hashed_password = undefined
+        req.profile.salt = undefined
+        return res.json(req.profile)
+    },
+    update: (req, res) => {
+        let user = req.profile
+        user = extend(user, req.body)
+        user.updateAt = Date.now()
+        user.save().then(() =>{
+            user.hashed_password = undefined
+            user.salt = undefined
+            res.json(user)
+        }).catch( (err) => {
+            return res.status(400).json({
+                error: errorHandler.getErrorMessage(err)
+            })
+        })
+    },
     delete: () => {},
-    userByID: () => {}
+    userByID: (req, res, next, id) => {
+        let user = userModel.findById(id).then(() => {
+            req.profile = user
+            next()
+        }).catch((err) => {
+            res.status(400).json({
+                error: "Could not retrieve user"
+            })
+        })
+    }
 }
