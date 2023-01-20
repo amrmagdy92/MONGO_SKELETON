@@ -4,9 +4,9 @@ import { MongoClient } from "mongodb"
 
 dotenv.config()
 
-const mongoURL = process.env.MONGODB_URI || `mongodb+srv://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@devcluster.b1dvlrj.mongodb.net/?retryWrites=true&w=majority`
+import config from "../config/config"
 
-MongoClient.connect(mongoURL).then(() => {
+MongoClient.connect(config.mongoURI).then(() => {
     console.log('Database connection is successful...')
 }).catch((err) => {
     console.log(`Error connecting to the database:\n${err}`)
