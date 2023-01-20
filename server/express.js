@@ -8,6 +8,8 @@ import helmet from "helmet"
 import mongoose from "mongoose"
 import config from "../config/config"
 
+import userRouter from "./routes/user.routes"
+
 dotenv.config()
 
 mongoose.Promise = global.Promise
@@ -33,5 +35,7 @@ app.use(cookieParser())
 app.use(compress())
 app.use(helmet())
 app.use(cors())
+
+app.use('/api/users', userRouter)
 
 export default app
