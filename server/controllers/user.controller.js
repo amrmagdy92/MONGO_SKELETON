@@ -18,7 +18,11 @@ export default {
         let usersList
         userModel.find().select('firstName lastName email createdAt updatedAt').then( (users) => {
             usersList = users
-            console.log(usersList)
+            res.json(usersList)
+        }).catch( (err) => {
+            return res.status(400).json({
+                error: errorHandler.getErrorMessage(err)
+            })
         })
     },
     read: () => {},
