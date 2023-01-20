@@ -1,6 +1,6 @@
-import path from "path";
-import webpack from "webpack";
-import nodeExternals from "webpack-node-externals";
+import path from "path"
+import webpack from "webpack"
+import nodeExternals from "webpack-node-externals"
 
 const CURRENT_WORKING_DIR = process.cwd();
 
@@ -26,4 +26,4 @@ const config = {
     }
 }
 
-export default config;
+export default config
