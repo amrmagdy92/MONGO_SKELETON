@@ -29,7 +29,10 @@ export default {
             return res.status('401').json({ error: "Could not sign in"})
         }
     },
-    signout: (req, res) => {},
+    signout: (req, res) => {
+        res.clearCookie("t")
+        return res.status(200).json({message: "Signed out"})
+    },
     requireSignin,
     hasAuthorization: () => {}
 }
