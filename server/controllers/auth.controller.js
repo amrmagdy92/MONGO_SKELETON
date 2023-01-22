@@ -33,6 +33,9 @@ export default {
         res.clearCookie("t")
         return res.status(200).json({message: "Signed out"})
     },
-    requireSignin,
+    requireSignin: expressJWT({
+        secret: config.jwtSecret,
+        userProperty: 'auth'
+    }),
     hasAuthorization: () => {}
 }
