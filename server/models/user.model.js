@@ -41,12 +41,12 @@ const userSchema = new mongoose.Schema({
 // userSchema functions
 userSchema
     .virtual('password')
-    .set((password) => {
+    .set(function(password) {
         this._password = password
         this.salt = this.makeSalt()
         this.hashed_password = this.encryptPassword(password)
     })
-    .get(() => {
+    .get(function() {
         return this._password
     })
 
@@ -55,9 +55,9 @@ userSchema.methods = {
         return this.encryptPassword(plainText) === this.hashed_password
     },
     encryptPassword: (password) => {
-        // TODO: check the below condition
-        if (!password) return ''
+        if (password == '' || password == null || password == undefined) return ''
         try {
+            // TODO: need to find out why salt is not called
             return crypto
                 .createHmac('sha1', this.salt)
                 .update(password)
