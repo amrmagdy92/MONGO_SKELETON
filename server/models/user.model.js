@@ -71,8 +71,9 @@ userSchema.methods = {
     }
 }
 
-// TODO: find out why path validator isn't working
+// TODO: find out why the passed this is undefined
 // userSchema.path('hashed_password').validate((v) => {
+//     console.log(this)
 //     if(this._password &&this._password.length < 6) {
 //         this.invalidate('password', 'Password must be at least 6 characters.')
 //     }
