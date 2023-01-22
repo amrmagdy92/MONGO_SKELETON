@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken"
-import expressJWT from "express-jwt"
+import { expressjwt } from "express-jwt"
 import userModel from "../models/user.model"
 import config from "../../config/config"
 
@@ -33,8 +33,9 @@ export default {
         res.clearCookie("t")
         return res.status(200).json({message: "Signed out"})
     },
-    requireSignin: expressJWT({
+    requireSignin: expressjwt({
         secret: config.jwtSecret,
+        algorithms: ["HS256"],
         userProperty: 'auth'
     }),
     hasAuthorization: (req, res, next) => {
