@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+import crypto from "crypto"
 
 const userSchema = new mongoose.Schema({
     firstName: {
@@ -43,8 +44,8 @@ userSchema
     .virtual('password')
     .set(function(password) {
         this._password = password
-        this.salt = this.makeSalt()
-        this.hashed_password = this.encryptPassword(password)
+        this.user_salt = this.makeSalt()
+        this.hashed_password = this.encryptPassword(password, this.user_salt)
     })
     .get(function() {
         return this._password
@@ -54,16 +55,15 @@ userSchema.methods = {
     authenticate: (plainText) => {
         return this.encryptPassword(plainText) === this.hashed_password
     },
-    encryptPassword: (password) => {
+    encryptPassword: (password, salt) => {
         if (password == '' || password == null || password == undefined) return ''
         try {
-            // TODO: need to find out why salt is not called
             return crypto
-                .createHmac('sha1', this.salt)
+                .createHmac('sha1', salt)
                 .update(password)
                 .digest('hex')
         } catch (err) {
-            return ''
+            return err
         }
     },
     makeSalt: () => {
@@ -71,13 +71,14 @@ userSchema.methods = {
     }
 }
 
-userSchema.path('hashed_password').validate((v) => {
-    if(this._password &&this._password.length < 6) {
-        this.invalidate('password', 'Password must be at least 6 characters.')
-    }
-    if (this.isNew && !this._password) {
-        this.invalidate('password', 'Password is required')
-    }
-}, null)
+// TODO: find out why path validator isn't working
+// userSchema.path('hashed_password').validate((v) => {
+//     if(this._password &&this._password.length < 6) {
+//         this.invalidate('password', 'Password must be at least 6 characters.')
+//     }
+//     if (this.isNew && !this._password) {
+//         this.invalidate('password', 'Password is required')
+//     }
+// }, null)
 
 export default mongoose.model('users', userSchema)
