@@ -36,10 +36,11 @@ export default {
     update: (req, res) => {
         let user = req.profile
         user = extend(user, req.body)
-        user.updateAt = Date.now()
+        user.updatedAt = Date.now()
         user.save().then(() =>{
             user.hashed_password = undefined
-            user.salt = undefined
+            user.user_salt = undefined
+            user.__v = undefined
             res.json(user)
         }).catch( (err) => {
             return res.status(400).json({
