@@ -9,6 +9,7 @@ import mongoose from "mongoose"
 import config from "../config/config"
 
 import userRouter from "./routes/user.routes"
+import authRouter from "./routes/auth.routes"
 
 dotenv.config()
 
@@ -36,6 +37,7 @@ app.use(compress())
 app.use(helmet())
 app.use(cors())
 
+app.use('/auth', authRouter)
 app.use('/api/users', userRouter)
 
 export default app
