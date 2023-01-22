@@ -1,5 +1,6 @@
 import express from "express"
 import userController from "../controllers/user.controller"
+import authController from "../controllers/auth.controller"
 
 const router = express.Router()
 
@@ -8,9 +9,9 @@ router.route('/')
     .post(userController.create)
 
 router.route('/:userId')
-    .get(userController.read)
-    .put(userController.update)
-    .delete(userController.delete)
+    .get(authController.requireSignin, userController.read)
+    .put(authController.requireSignin, authController.hasAuthorization, userController.update)
+    .delete(authController.requireSignin, authController.hasAuthorization, userController.delete)
 
 router.param('userId', userController.userByID)
 
