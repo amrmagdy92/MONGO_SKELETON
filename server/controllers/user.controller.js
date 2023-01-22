@@ -45,7 +45,18 @@ export default {
             })
         })
     },
-    delete: () => {},
+    delete: (req, res) => {
+        let user = req.profile
+        let deletedUser = user.deleteOne({id: user.id }).then(() => {
+            deletedUser.hashed_password = undefined
+            deletedUser.salt = undefined
+            res.json(deletedUser)
+        }).catch((err) => {
+            return res.status(400).json({
+                error: errorHandler.getErrorMessage(err)
+            })
+        })
+    },
     userByID: (req, res, next, id) => {
         let user = userModel.findById(id).then(() => {
             req.profile = user
