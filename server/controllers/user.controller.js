@@ -49,7 +49,7 @@ export default {
     },
     delete: (req, res) => {
         let user = req.profile
-        let deletedUser = user.deleteOne({_id: user.id }).then(() => {
+        user.deleteOne({_id: user.id }).then((deletedUser) => {
             deletedUser.hashed_password = undefined
             deletedUser.salt = undefined
             res.json(deletedUser)
