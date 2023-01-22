@@ -37,7 +37,7 @@ app.use(compress())
 app.use(helmet())
 app.use(cors())
 
-app.use('/auth', authRouter)
+app.use('/', authRouter)
 app.use('/api/users', userRouter)
 
 export default app
