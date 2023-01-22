@@ -58,7 +58,7 @@ export default {
         })
     },
     userByID: (req, res, next, id) => {
-        let user = userModel.findById(id).then(() => {
+        userModel.findById(id).then((user) => {
             req.profile = user
             next()
         }).catch((err) => {
