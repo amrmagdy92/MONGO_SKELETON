@@ -26,7 +26,7 @@ export default {
             })
         
         } catch (err) {
-            return res.status('401').json({ error: "Could not sign in"})
+            return res.status(401).json({ error: "Could not sign in"})
         }
     },
     signout: (req, res) => {
