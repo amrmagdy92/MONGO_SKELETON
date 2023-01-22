@@ -28,7 +28,9 @@ export default {
     },
     read: (req, res) => {
         req.profile.hashed_password = undefined
-        req.profile.salt = undefined
+        req.profile.user_salt = undefined
+        req.profile.createdAt = undefined
+        req.profile.__v = undefined
         return res.json(req.profile)
     },
     update: (req, res) => {
