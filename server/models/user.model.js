@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
 import crypto from "crypto"
+import userHelpers from "../helpers/user.helpers"
 
 const userSchema = new mongoose.Schema({
     firstName: {
@@ -44,32 +45,12 @@ userSchema
     .virtual('password')
     .set(function(password) {
         this._password = password
-        this.user_salt = this.makeSalt()
-        this.hashed_password = this.encryptPassword(password, this.user_salt)
+        this.user_salt = userHelpers.makeSalt()
+        this.hashed_password = userHelpers.encryptPassword(password, this.user_salt)
     })
     .get(function() {
         return this._password
     })
-
-userSchema.methods = {
-    authenticate: (plainText) => {
-        return this.encryptPassword(plainText) === this.hashed_password
-    },
-    encryptPassword: (password, salt) => {
-        if (password == '' || password == null || password == undefined) return ''
-        try {
-            return crypto
-                .createHmac('sha1', salt)
-                .update(password)
-                .digest('hex')
-        } catch (err) {
-            return err
-        }
-    },
-    makeSalt: () => {
-        return Math.round(new Date().valueOf() * Math.random()).toString()
-    }
-}
 
 // TODO: find out why the passed this is undefined
 // userSchema.path('hashed_password').validate((v) => {
