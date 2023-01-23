@@ -2,16 +2,17 @@ import jwt from "jsonwebtoken"
 import { expressjwt } from "express-jwt"
 import userModel from "../models/user.model"
 import config from "../../config/config"
+import userHelpers from "../helpers/user.helpers"
 
 export default {
     signin: async (req, res) => {
         try {
             let user = await userModel.findOne({"email": req.body.email})
-
+            let userID = user._id.toString()
             if (!user) return res.status(401).json({error: "User not found"})
-            if (!user.authenticate(req.body.password)) return res.status(401).json({error: "Login credentials do not match"})
+            if (!userHelpers.authenticate(userID, req.body.password)) return res.status(401).json({error: "Login credentials do not match"})
 
-            const token = jwt.sign({ _id: this._id }, config.jwtSecret)
+            const token = jwt.sign({ _id: userID }, config.jwtSecret)
 
             res.cookie('t', token, { expire: new Date() + config.jwtExpiry})
 
@@ -26,6 +27,7 @@ export default {
             })
         
         } catch (err) {
+            console.log(err)
             return res.status(401).json({ error: "Could not sign in"})
         }
     },
