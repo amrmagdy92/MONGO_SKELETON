@@ -11,7 +11,7 @@ router.route('/')
 router.route('/:userId')
     .get(authController.requireSignin, userController.read)
     .put(authController.requireSignin, authController.hasAuthorization, userController.update)
-    .delete(authController.requireSignin, authController.hasAuthorization, userController.delete)
+    .delete(authController.requireSignin, authController.hasAuthorization, userController.remove)
 
 router.param('userId', userController.userByID)
 
