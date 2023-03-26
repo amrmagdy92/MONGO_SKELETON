@@ -29,7 +29,7 @@ function getUniqueErrorMessage (err) {
     return output
 }
 
-export default {
+export {
     getErrorMessage,
     getUniqueErrorMessage
 }

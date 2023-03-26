@@ -53,7 +53,7 @@ const requireSignin = expressjwt({
     userProperty: 'auth'
 })
 
-export default {
+export {
     signin,
     signout,
     requireSignin,

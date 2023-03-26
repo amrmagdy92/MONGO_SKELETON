@@ -75,7 +75,7 @@ function userByID (req, res, next, id) {
     })
 }
 
-export default {
+export {
     create,
     list,
     read,

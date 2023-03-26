@@ -27,7 +27,7 @@ function makeSalt () {
     return Math.round(new Date().valueOf() * Math.random()).toString()
 }
 
-export default {
+export {
     authenticate,
     encryptPassword,
     makeSalt
